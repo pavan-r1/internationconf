@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="image/LOGO.jpeg">
+    <title>RATE - 2025: Innovation & Research for a Sustainable Future</title>
+    
+    <!-- Load Tailwind CSS for modern, responsive styling (Zero-Budget Solution) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom CSS variables for your branding */
+        :root {
+            --rate-dark-blue: #1A237E; /* Deep Navy Blue */
+            --rate-gold: #ffffff;      /* Gold/Amber Accent */
+            --rate-white: #FFFFFF;
+            --rate-light-blue: #E0F7FA; /* Very light blue for background */
+        }
+        /* Applying the Inter font (best for modern academic sites) */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa; /* Light background for sections */
+        }
+
+        /* --- Hero Section with Background Carousel --- */
+        #hero-section {
+            background-color: var(--rate-dark-blue);
+            color: var(--rate-white);
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            padding-top: 5rem;
+            padding-bottom: 5rem;
+            position: relative; /* Needed for absolute positioning of carousel and overlay */
+            overflow: hidden; /* Important to hide off-screen images */
+            text-align: center;
+        }
+
+        /* Dark Overlay for Text Readability */
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.65); /* Increased dark overlay for better text contrast */
+            z-index: 1; /* Below text, above images */
+        }
+
+        /* Hero Content (Text, Countdown, Buttons) must be above the overlay */
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Image Styling for the Hero Background Carousel */
+        .carousel-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0; /* Initially hidden */
+            transition: opacity 1.5s ease-in-out; /* Smooth crossfade effect */
+            z-index: 0; /* Below overlay and content */
+        }
+
+        .carousel-image.active {
+            opacity: 1; /* Only the active image is visible */
+        }
+        
+        /* --- Header/Logo Styling --- */
+        .header-logo {
+            height: 50px; /* Adjust size for desktop */
+            width: auto;
+            object-fit: contain;
+            transition: transform 0.2s;
+        }
+        .header-logo:hover {
+            transform: scale(1.05);
+        }
+        @media (max-width: 768px) {
+             .header-logo {
+                 height: 40px; /* Smaller logo on mobile */
+             }
+        }
+        
+        /* --- General Text & Layout Styling --- */
+        .rate-title {
+            font-size: 3.5rem; 
+            font-weight: 800;
+            line-height: 1.1;
+        }
+        .rate-tagline {
+            color: var(--rate-gold); 
+            font-style: italic;
+            font-size: 1.8rem;
+        }
+        .rate-countdown {
+            border: 3px solid var(--rate-gold);
+            color: var(--rate-gold);
+            letter-spacing: 2px;
+        }
+        .date-critical {
+            background-color: #fef3c7;
+            border-left: 4px solid var(--rate-gold);
+        }
+        .date-event {
+            background-color: var(--rate-gold);
+            color: var(--rate-dark-blue);
+            font-weight: 700;
+        }
+        .track-card {
+            background-color: var(--rate-white);
+            border-top: 5px solid var(--rate-dark-blue);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .track-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-top: 5px solid var(--rate-gold); /* Gold highlight on hover */
+        }
+        
+        /* Speaker Profile Card Styling */
+        .speaker-card {
+            background-color: white;
+            transition: box-shadow 0.3s;
+            border-bottom: 4px solid var(--rate-gold);
+            overflow: hidden;
+            text-align: center; /* Ensures text is centered as requested in image template */
+        }
+        .speaker-card:hover {
+            box-shadow: 0 15px 25px rgba(26, 35, 126, 0.2); /* Deep blue shadow on hover */
+        }
+        .speaker-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            filter: grayscale(10%);
+            transition: filter 0.5s;
+        }
+        .speaker-card:hover .speaker-img {
+            filter: grayscale(0%);
+        }
+
+        /* Committee Styling */
+        .committee-group-card {
+            background-color: var(--rate-white);
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+            padding: 1.5rem;
+        }
+        .core-team-card {
+            background-color: var(--rate-dark-blue);
+            color: var(--rate-white);
+            border: 2px solid var(--rate-gold);
+            padding: 2rem;
+        }
+        
+        /* New styling for Advisory Committee members - uses the grid for cleaner presentation */
+        .advisory-member-card {
+            background-color: var(--rate-white);
+            border-left: 5px solid var(--rate-dark-blue); /* Changed from gold to blue for contrast */
+            padding: 1.25rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+            height: 100%; /* Ensures cards in a row have equal height */
+        }
+        .advisory-member-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0,0,0,0.1);
+            border-left: 5px solid var(--rate-gold); /* Gold highlight on hover */
+        }
+        .advisory-member-img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+        }
+
+
+        /* Mobile adjustment for title */
+        @media (max-width: 768px) {
+            .rate-title { font-size: 2rem; }
+            .rate-tagline { font-size: 1.2rem; }
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(-100%);}
+            100% { transform: translateX(100%);}
+        }
+        .animate-marquee {
+            display: inline-flex;
+            white-space: nowrap;
+            animation: marquee 10s linear infinite;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- HEADER/NAVIGATION BAR -->
+ <header class="bg-white shadow-lg sticky top-0 z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex items-center">
+            
+            <button id="mobile-menu-btn" class="md:hidden flex flex-col justify-center items-center w-10 h-10 rounded focus:outline-none hover:bg-gray-100" aria-label="Open Menu">
+                <span class="block w-7 h-1 bg-blue-900 mb-1 rounded"></span>
+                <span class="block w-7 h-1 bg-blue-900 mb-1 rounded"></span>
+                <span class="block w-7 h-1 bg-blue-900 rounded"></span>
+            </button>
+
+            <a href="#hero-section" class="flex items-center space-x-3 flex-shrink-0">
+                <img src="image/LOGO.jpeg" alt="RATE 2025 Conference Logo" class="header-logo" onerror="this.onerror=null; this.src='https://placehold.co/100x50/1A237E/FFC107?text=RATE+2025';">
+                <span class="text-xl font-extrabold text-blue-900 hidden sm:inline">RATE - 2025</span>
+            </a>
+            
+            <nav class="hidden md:flex space-x-2 text-gray-800 items-center font-semibold ml-auto">
+                <a href="#about" class="px-3 py-2 rounded-lg transition duration-150 hover:bg-yellow-100 hover:text-blue-900">About & IMPORTANT Dates</a>
+                <a href="#tracks" class="px-3 py-2 rounded-lg transition duration-150 hover:bg-yellow-100 hover:text-blue-900">Call for Papers</a>
+                <a href="#keynotes" class="px-3 py-2 rounded-lg transition duration-150 hover:bg-yellow-100 hover:text-blue-900">Keynotes</a>
+                <a href="#venue" class="px-3 py-2 rounded-lg transition duration-150 hover:bg-yellow-100 hover:text-blue-900">Venue</a>
+               
+                <div class="relative group">
+                    <button class="px-3 py-2 rounded-lg transition duration-150 hover:bg-yellow-100 hover:text-blue-900 flex items-center focus:outline-none">
+                        Committee
+                        <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                   
+                    <div class="absolute left-0 mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 pointer-events-none group-hover:pointer-events-auto group-focus-within:pointer-events-auto transition-opacity duration-200 z-20">
+                        <a href="#committee" class="block px-6 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 rounded-t-lg">Organizing Committee</a>
+                        <a href="#advisory" class="block px-6 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900">Advisory Committee</a>
+                        <a href="#coreteam" class="block px-6 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 rounded-b-lg">Steering Committee</a>
+                    </div>
+                </div>
+                <a href="#contact" class="px-3 py-2 rounded-lg transition duration-150 hover:bg-yellow-100 hover:text-blue-900">Contact</a>
+            </nav>
+        </div>
+    
+        <nav id="mobile-menu" class="md:hidden fixed top-0 left-0 w-full h-full bg-white bg-opacity-95 z-50 hidden flex-col items-center justify-center">
+            <button id="mobile-menu-close" class="absolute top-6 right-6 text-3xl text-blue-900 focus:outline-none" aria-label="Close Menu">&times;</button>
+            <ul class="flex flex-col space-y-3 text-2xl font-semibold mt-20 p-4 w-11/12 max-w-sm">
+                <li><a href="#about" class="block py-3 px-4 rounded-lg text-gray-800 hover:bg-yellow-400 hover:text-blue-900 transition duration-150" onclick="closeMobileMenu()">About & IMPORTANT Dates</a></li>
+                <li><a href="#tracks" class="block py-3 px-4 rounded-lg text-gray-800 hover:bg-yellow-400 hover:text-blue-900 transition duration-150" onclick="closeMobileMenu()">Call for Papers</a></li>
+                <li><a href="#keynotes" class="block py-3 px-4 rounded-lg text-gray-800 hover:bg-yellow-400 hover:text-blue-900 transition duration-150" onclick="closeMobileMenu()">Keynotes</a></li>
+                <li><a href="#venue" class="block py-3 px-4 rounded-lg text-gray-800 hover:bg-yellow-400 hover:text-blue-900 transition duration-150" onclick="closeMobileMenu()">Venue</a></li>
+                <li><a href="#committee" class="block py-3 px-4 rounded-lg text-gray-800 hover:bg-yellow-400 hover:text-blue-900 transition duration-150" onclick="closeMobileMenu()">Organizing Committee</a></li>
+                <li><a href="#advisory" class="block py-3 px-4 rounded-lg text-gray-800 hover:bg-yellow-400 hover:text-blue-900 transition duration-150" onclick="closeMobileMenu()">Advisory Committee</a></li>
+                <li><a href="#coreteam" class="block py-3 px-4 rounded-lg text-gray-800 hover:bg-yellow-400 hover:text-blue-900 transition duration-150" onclick="closeMobileMenu()">Steering Committee</a></li>
+                <li><a href="#contact" class="block py-3 px-4 rounded-lg text-gray-800 hover:bg-yellow-400 hover:text-blue-900 transition duration-150" onclick="closeMobileMenu()">Contact</a></li>
+                <li>
+                    <a href="https://easychair.org/conferences?conf=rate20250" class="mt-4 bg-blue-800 text-white px-6 py-2 rounded-full shadow font-bold hover:bg-blue-700 transition block text-center" onclick="closeMobileMenu()">Submit</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <!-- 1. HERO SECTION (Fading Image Carousel Background) -->
+    <section id="hero-section">
+        <!-- 1.1 Background Images (Carousel) -->
+        <div id="hero-carousel">
+            <!-- Image 1: Institute Building -->
+            <img src="image/19666T John Institute.jpg" 
+                alt="T. John Institute Main Building" 
+                class="carousel-image active"
+                onerror="this.onerror=null; this.src='https://placehold.co/1920x1080/000000/FFFFFF?text=TJIT+Building+1';">
+            
+            <!-- Image 2: Block/Gate -->
+            <img src="image/blockgate.jpeg" 
+                alt="TJIT Conference Hall Entrance" 
+                class="carousel-image"
+                onerror="this.onerror=null; this.src='https://placehold.co/1920x1080/000000/FFFFFF?text=TJIT+Building+2';">
+            
+            <!-- Image 3: Students/Networking -->
+            <img src="image/maxresdefault.jpg" 
+                alt="Students networking during a session" 
+                class="carousel-image"
+                onerror="this.onerror=null; this.src='https://placehold.co/1920x1080/000000/FFFFFF?text=TJIT+Networking';">
+        </div>
+
+        <!-- 1.2 Dark Overlay for Readability -->
+        <div class="hero-overlay"></div>
+
+        <!-- 1.3 Hero Content (Text, Countdown, Buttons) -->
+        <div class="max-w-5xl mx-auto px-4 hero-content">
+            <p class="text-lg mb-2 font-medium">Department of CSE/DS/CSE(IOT) Presents</p>
+            <h1 class="rate-title">
+                International Conference ON Recent Advancements in Technology and Engineering - RATE 2025 
+            </h1>
+            
+            <p class="rate-institute text-xl opacity-90 mt-2 mb-4">
+                Hosted by T. John Institute of Technology (TJIT), Bangalore
+            </p>
+            
+            <h2 class="rate-tagline mt-6 mb-2">
+                Innovation & Research for a Sustainable Future
+            </h2>
+            
+            <h3 class="text-xl font-light mb-8">
+                21st November 2025
+            </h3>
+            
+            <!-- COUNTDOWN TIMER Placeholder -->
+            <div id="countdown-timer" class="rate-countdown inline-block px-8 py-3 rounded-xl mb-10 text-2xl sm:text-3xl">
+                Loading Submission Deadline Countdown...
+            </div>
+
+            <!-- CTA Buttons -->
+            <div class="cta-buttons flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-8">
+                <a href="https://easychair.org/conferences?conf=rate20250"
+ class="bg-yellow-500 text-blue-900 px-8 py-4 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transition duration-300">
+                    Submit Your Paper Here
+                </a>
+                <a href="#fees" class="bg-transparent text-white border-2 border-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg hover:bg-white/10 transition duration-300">
+                    Register Now
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. ABOUT & IMPORTANT DATES SECTION -->
+    <section id="dates" class="py-16 px-4 bg-white">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row gap-10">
+            
+            <!-- Left Column: About Text -->
+            <div id="about" class="md:w-7/12">
+                <h2 class="text-3xl font-bold text-blue-900 mb-6 border-b-4 border-yellow-500 pb-2">
+                    About the International Conference
+                </h2>
+                
+                <p class="text-lg text-gray-700 mb-4 leading-relaxed">
+                    The <strong>International Conference on Recent Advancements in Technology and Engineering - RATE 2025</strong> is a premier event hosted by the Departments of CSE/DS/CSE(IOT)
+                </p>
+                
+                <p class="text-lg text-gray-700 mb-6 text-align-justify leading-relaxed">
+                    The conference theme, <strong>Innovation & Research for a Sustainable Future</strong>, The 1st International Conference on Recent Advancements in Technology and Engineering (RATE-2025) is a distinguished annual event dedicated to showcasing technological advancements and innovations within the fields of computer science and related disciplines. This conference is scheduled to take place on November 21, 2025, at T John Institute of Technology (TJIT) in Bangalore, India. RATE-2025 serves as a platform for students, researchers, innovators, technologists, and industry professionals who are at the forefront of computer science and its allied branches, including Artificial Intelligence, Internet of Things, Cyber Security, Data Science and cloud computing, and software engineering. The conference is supported by a robust advisory committee comprising esteemed researchers. The theme of the conference, "Innovation & Research for a Sustainable Future," encourages the exploration of cutting-edge research in core engineering and technology disciplines. We extend an invitation to academics, researchers, and industry experts to present their latest findings and engage in transformative discussions in areas such as Data Science, IoT, and Computer Science.
+                </p>
+
+                <a href="#tracks" class="inline-block mt-4 text-blue-800 border-2 border-blue-800 px-6 py-2 rounded-lg font-medium hover:bg-blue-800 hover:text-white transition duration-300">
+                    View Call for Papers & Tracks &rarr;
+                </a>
+            </div>
+
+            <!-- Right Column: Important Dates -->
+            <div class="md:w-5/12 p-6 rounded-xl bg-gray-50 shadow-lg">
+                <h3 class="text-2xl font-bold text-blue-900 mb-4 border-b pb-2">Important Dates</h3>
+                
+                <ul class="dates-list space-y-3">
+                    <li class="flex justify-between items-center py-2 border-b">
+                        <span class="text-gray-600">Paper Submission Starts:</span> 
+                        <strong class="text-blue-800">October 11, 2025</strong>
+                    </li>
+                    
+                    <li class="date-critical flex justify-between items-center py-3 rounded-lg px-3">
+                        <span class="text-blue-900 font-semibold">Paper Submission Deadline:</span> 
+                        <strong class="text-red-600">NOVEMBER 07,025</strong>
+                    </li>
+                    
+                    <li class="flex justify-between items-center py-2 border-b">
+                        <span class="text-gray-600">Notification of Acceptance:</span> 
+                        <strong class="text-blue-800">November 10, 2025</strong>
+                    </li>
+                    
+                    <li class="flex justify-between items-center py-2 border-b">
+                        <span class="text-gray-600">Camera Ready Submission:</span> 
+                        <strong class="text-blue-800">November 14, 2025</strong>
+                    </li>
+                    
+                    <li class="date-event flex justify-between items-center py-3 rounded-lg px-3 mt-4 shadow-md">
+                        <span class="font-bold">Main Conference Date:</span> 
+                        <strong class="text-2xl">November 21, 2025</strong>
+                    </li>
+                </ul>
+            </div>
+            
+        </div>
+    </section>
+        <!-- Add this section after your committee section and before the footer for a "Conference Fees" table -->
+<section id="fees" class="py-16 px-4 bg-white">
+    <div class="max-w-3xl mx-auto">
+        <h2 class="text-4xl font-extrabold text-center text-blue-900 mb-6">
+            Conference Fees & Registration
+        </h2>
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-yellow-100 border border-gray-200 rounded-lg shadow">
+                <thead>
+                    <tr class="bg-blue-50">
+                        <th class="py-3 px-4 text-left font-bold text-blue-900 border-b">Category</th>
+                        <th class="py-3 px-4 text-left font-bold text-blue-900 border-b">Fee (in Rs.)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="py-2 px-4 border-b">UG/PG Students Per Team Member</td>
+                        <td class="py-2 px-4 border-b">300</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2 px-4 border-b">TJGI Staff</td>
+                        <td class="py-2 px-4 border-b">500</td>
+                    </tr>
+		    <tr>
+                        <td class="py-2 px-4 border-b">Online Participant per team(Participants outside Bengaluru)</td>
+                        <td class="py-2 px-4 border-b">500</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2 px-4 border-b">Academician/Research Scholar</td>
+                        <td class="py-2 px-4 border-b">750</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2 px-4 border-b">Industry Participant</td>
+                        <td class="py-2 px-4 border-b">1000</td>
+                    </tr>
+		    
+                </tbody>
+            </table>
+        </div>
+        <div class="mt-6 text-gray-700 text-center">
+            <strong>Note:</strong> A team can have up to 4 members. Each team must pay Rs. 300 per member (e.g., a team of 4 pays Rs. 1200). Individual registrations are also accepted.To ensure your paper's inclusion in the conference proceedings, the mandatory registration fee must be paid only after you have received the official notification of acceptance.<br>
+            
+        </div>
+        <!-- Add this QR code section below your Conference Fees & Registration table, inside the #fees section -->
+<div class="mt-10 flex flex-col items-center">
+    <h3 class="text-2xl font-bold text-blue-900 mb-4 text-center">
+        Payment QR Code
+    </h3>
+    <img src="image/fees.jpeg" alt="Conference Payment QR Code"
+         class="w-64 h-64 object-contain rounded-xl shadow-lg border-4 border-blue-200 mb-4"
+         onerror="this.onerror=null; this.src='https://placehold.co/256x256/1A237E/FFC107?text=QR+Code';">
+    <p class="text-lg text-gray-700 text-center max-w-xl">
+        Please scan the above QR code to pay your conference registration fee.<br>
+        After payment, kindly keep the transaction details for verification during registration.
+    </p>
+</div>
+    </div>
+</section>
+
+    <!-- Add this marquee section after the registration/fees section and before the technical tracks section -->
+<div class="text-3xl font-bold text-center text-blue-900 mb-6">
+    Industry Partner
+</div>
+<div class="w-full bg-blue-50 py-8 flex items-center justify-center space-x-12 mt-8">
+    
+    <div class="flex flex-col items-center">
+        <a href="http://www.loginware.ai/" target="_blank" rel="noopener">
+            <img src="image/loginware.jpeg" alt="Loginware.ai Industry Partner Logo"
+                 class="h-28 w-auto rounded shadow-lg border-4 border-blue-300 mb-4"
+                 style="max-width: 340px;"
+                 onerror="this.onerror=null; this.src='https://placehold.co/340x120/1A237E/FFC107?text=Loginware.ai+Partner';">
+        </a>
+        <span class="text-2xl font-bold text-center text-blue-900">
+            <a href="http://www.loginware.ai/" target="_blank" rel="noopener" class="underline text-blue-800 hover:text-blue-600">Loginware.ai</a>
+        </span>
+    </div>
+
+    <div class="flex flex-col items-center">
+        <a href="http://wingslide.com" target="_blank" rel="noopener">
+            <img src="image/wingslide.jpeg" alt="wingslide"
+                 class="h-28 w-auto rounded shadow-lg border-4 border-blue-300 mb-4"
+                 style="max-width: 340px;"
+                 onerror="this.onerror=null; this.src='https://placehold.co/340x120/795548/FFECB3?text=Second+Partner';">
+        </a>
+        <span class="text-2xl font-bold text-center text-blue-900">
+            <a href="http://wingslide.com" target="_blank" rel="noopener" class="underline text-blue-800 hover:text-blue-600">wingslide</a>
+        </span>
+    </div>
+
+</div>
+    <!-- 3. TECHNICAL TRACKS SECTION -->
+<section id="tracks" class="py-16 px-4 bg-gray-100">
+    <div class="max-w-7xl mx-auto">
+        <h2 class="text-4xl font-extrabold text-center text-blue-900 mb-3">
+            Call for Papers
+        </h2>
+        <p class="text-center text-xl text-gray-700 mb-4">
+            We invite innovative research contributions across the following six major tracks.
+        </p>
+
+        <p class="text-center text-lg font-medium text-gray-800 mb-12">
+            Please use the official conference paper template:
+            <a href="https://drive.google.com/file/d/1yXmtBPtf-bDWNqI9zbNRnjCnfjYYNFZP/view?usp=drivesdk" 
+               target="_blank" 
+               rel="noopener" 
+               class="text-red-600 hover:text-red-800 font-bold underline transition duration-300">
+                Download Conference Template
+            </a>
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <div class="track-card p-6 rounded-xl shadow-lg">
+                <h3 class="text-2xl font-bold text-blue-800 mb-3 flex items-center">
+                    <span class="text-yellow-500 mr-2 text-3xl">★</span> Artificial Intelligence & ML
+                </h3>
+                <ul class="list-disc list-inside text-gray-600 space-y-1 ml-4">
+                    <li>Deep Learning Models</li>
+                    <li>Natural Language Processing (NLP)</li>
+                    <li>Computer Vision and Image Processing</li>
+                    <li>Reinforcement Learning</li>
+                </ul>
+            </div>
+            
+            <div class="track-card p-6 rounded-xl shadow-lg">
+                <h3 class="text-2xl font-bold text-blue-800 mb-3 flex items-center">
+                    <span class="text-yellow-500 mr-2 text-3xl">★</span> Data Science & Analytics
+                </h3>
+                <ul class="list-disc list-inside text-gray-600 space-y-1 ml-4">
+                    <li>Big Data Architectures (Hadoop, Spark)</li>
+                    <li>Statistical Modeling and Data Mining</li>
+                    <li>Business Intelligence & Visualization</li>
+                    <li>Ethical Data Handling</li>
+                </ul>
+            </div>
+
+            <div class="track-card p-6 rounded-xl shadow-lg">
+                <h3 class="text-2xl font-bold text-blue-800 mb-3 flex items-center">
+                    <span class="text-yellow-500 mr-2 text-3xl">★</span> IoT & Smart Systems
+                </h3>
+                <ul class="list-disc list-inside text-gray-600 space-y-1 ml-4">
+                    <li>IoT Security and Privacy</li>
+                    <li>Edge/Fog Computing for IoT</li>
+                    <li>Smart City and Smart Healthcare Applications</li>
+                    <li>Sensor Networks and Wireless Communications</li>
+                </ul>
+            </div>
+
+            <div class="track-card p-6 rounded-xl shadow-lg">
+                <h3 class="text-2xl font-bold text-blue-800 mb-3 flex items-center">
+                    <span class="text-yellow-500 mr-2 text-3xl">★</span> Cloud & Edge Computing
+                </h3>
+                <ul class="list-disc list-inside text-gray-600 space-y-1 ml-4">
+                    <li>Serverless and Microservices Architectures</li>
+                    <li>Cloud Security and Compliance</li>
+                    <li>Virtualization and Containerization (Docker, Kubernetes)</li>
+                    <li>Distributed Systems</li>
+                </ul>
+            </div>
+
+            <div class="track-card p-6 rounded-xl shadow-lg">
+                <h3 class="text-2xl font-bold text-blue-800 mb-3 flex items-center">
+                    <span class="text-yellow-500 mr-2 text-3xl">★</span> Security & Blockchain
+                </h3>
+                <ul class="list-disc list-inside text-gray-600 space-y-1 ml-4">
+                    <li>Cryptography and Network Security</li>
+                    <li>Malware Analysis and Detection</li>
+                    <li>Decentralized Applications (dApps)</li>
+                    <li>Forensics and Incident Response</li>
+                </ul>
+            </div>
+
+            <div class="track-card p-6 rounded-xl shadow-lg">
+                <h3 class="text-2xl font-bold text-blue-800 mb-3 flex items-center">
+                    <span class="text-yellow-500 mr-2 text-3xl">★</span> Software Engineering
+                </h3>
+                <ul class="list-disc list-inside text-gray-600 space-y-1 ml-4">
+                    <li>Agile and DevOps Methodologies</li>
+                    <li>Software Quality Assurance</li>
+                    <li>Human-Computer Interaction (HCI)</li>
+                    <li>Software Architecture Patterns</li>
+                </ul>
+            </div>
+
+        </div>
+        
+        <div class="text-center mt-12">
+            <p class="text-xl text-blue-900 font-semibold mb-4">Ready to Submit Your Research?</p>
+            <a href="https://easychair.org/conferences?conf=rate20250" class="bg-blue-800 text-white px-10 py-4 rounded-xl font-extrabold text-lg shadow-xl hover:bg-blue-700 transition duration-300 transform hover:scale-105">
+                Submit Paper Now
+            </a>
+        </div>
+    </div>
+</section>
+
+    <section id="venue" class="py-16 px-4 bg-white">
+    <div class="max-w-7xl mx-auto">
+        <h2 class="text-4xl font-extrabold text-center text-blue-900 mb-6">
+            Conference Venue
+        </h2>
+        <div class="flex flex-col md:flex-row gap-10 items-center">
+            <!-- Venue Image -->
+            <div class="md:w-1/2 flex justify-center">
+                <img src="image/19666T John Institute.jpg"
+                     alt="T. John Institute of Technology Main Building"
+                     class="rounded-2xl shadow-xl w-full max-w-md object-cover border-4 border-yellow-400"
+                     onerror="this.onerror=null; this.src='https://placehold.co/600x400/1A237E/FFC107?text=TJIT+Venue';">
+            </div>
+            <!-- Venue Details -->
+            <div class="md:w-1/2">
+                <h3 class="text-2xl font-bold text-blue-800 mb-2">T. John Institute of Technology (TJIT), Bangalore</h3>
+                <p class="text-lg text-gray-700 mb-4">
+                    <strong>Address:</strong><br>
+                    T. John Institute of Technology,<br>
+                    88/1, Gottigere, Bannerghatta Road,<br>
+                    Bangalore – 560083, Karnataka, India
+                </p>
+                <p class="text-lg text-gray-700 mb-4">
+                    <strong> ABOUT THE INSTITUTE</strong><br>
+                    T. John Institute of Technology (TJIT) is a private Engineering College located in Bangalore, Karnataka, India. It was established in 2006 by Dr. Thomas P. John and is part of T. John Group of Institutions. The Institute offers Undergraduate & Postgraduate programmes, and is affiliated to Visvesvaraya Technological University (VTU) and is approved by All India Council for Technical Education (AICTE).
+                </p>   
+                <p class="text-lg text-gray-700 mb-4">
+                    <strong>About the Venue:</strong><br>
+                    The conference will be held at the scenic and modern campus of T. John Institute of Technology, located on Bannerghatta Road in Bangalore. The institute offers state-of-the-art conference halls, ample parking, and is easily accessible from major parts of the city.
+                </p>
+                <p class="text-lg text-gray-700 mb-4">
+                    <strong>How to Reach:</strong><br>
+                    The campus is well connected by road and public transport. It is approximately 20 km from Bangalore City Railway Station and 50 km from Kempegowda International Airport.
+                </p>
+                <a href="https://maps.app.goo.gl/tuCbLRYFfKM2oxBZ8" target="_blank" class="inline-block mt-2 bg-blue-800 text-white px-6 py-3 rounded-lg font-semibold shadow hover:bg-blue-700 transition">
+                    View on Google Maps
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- 4. KEYNOTE SPEAKERS SECTION -->
+    <section id="keynotes" class="py-16 px-4 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl font-extrabold text-center text-blue-900 mb-3">
+                Featured Keynote Speakers
+            </h2>
+            <p class="text-center text-xl text-gray-700 mb-12">
+                Gain insights from global leaders in technology and innovation.
+            </p>
+
+            <div class="grid gap-8">
+                
+                <!-- Speaker 1: Dr. Mohan K G Kabadi -->
+                <div class="speaker-card flex flex-col md:flex-row bg-yellow-50 rounded-xl shadow-2xl p-0 overflow-hidden mb-8">
+                    <!-- Left: Photo -->
+                    <div class="flex-shrink-0 flex items-center justify-center bg-yellow-100 p-6 md:p-8">
+                        <img src="image/K G MOHAN GAINDASA KABADI.jpeg" 
+                            alt="Dr. Mohan G Kabadi" 
+                            class="rounded-xl w-48 h-56 object-cover border-4 border-yellow-300"
+                            onerror="this.onerror=null; this.src='https://placehold.co/400x400/1A237E/FFC107?text=Dr.+Mohan+K+G+Kabadi';">
+                    </div>
+                    <!-- Right: Details -->
+                    <div class="flex-1 p-6 md:p-8 text-left">
+                        <h3 class="text-3xl font-bold text-blue-900 mb-1">Dr. Mohan G Kabadi</h3>
+                        <p class="text-lg font-semibold text-yellow-700 mb-1">Professor & DRC Chair, Dept. of CSE, GITAM University, Bengaluru</p>
+                        <p class="text-gray-700 mb-3">
+                            <strong>Prof. Mohan K G Kabadi</strong> has 39 years of academic experience and currently serves as Professor and DRC Chair at GITAM (Deemed to be) University, Bengaluru. He has previously held roles as HoD, Principal, Dean (Research), and Dean (Administration) in VTU-affiliated colleges, and has been a member of BoS, BoE, and the Academic Council. He completed his Ph.D. (2007, AU) and M.Tech (NITK).
+                        </p>
+                        <div class="mb-2">
+                            <span class="font-semibold text-blue-900">Research Publications:</span>
+                            <ul class="list-disc list-inside text-gray-700 text-base ml-4">
+                                <li>Wearable IoT based diagnosis of prostate cancer using GLCM-multiclass SVM and SIFT-multiclass SVM</li>
+                                <li>Novel Approach Towards Academic Module Based on Blockchain</li>
+                                <li>Sorter Design with Structured Low Power Techniques</li>
+                                <li>Convergence of Real-Time Analytical Framework with E-Waste Disposal Using ML-Centered Hybrid Neural Networks</li>
+                                <li>An Approach to Improvise Blockchain Scalability Using Sharding and PBFT</li>
+                            </ul>
+                        </div>
+                        <div class="mb-2">
+                            <span class="font-semibold text-blue-900">Ongoing Projects:</span>
+                            <ul class="list-disc list-inside text-gray-700 text-base ml-4">
+                                <li>IT-assisted Silk Cocoon Farming for rural upliftment</li>
+                                <li>Software Defined Vehicle, MURTI-Research Center</li>
+                            </ul>
+                        </div>
+                        <div class="mb-2">
+                            <span class="font-semibold text-blue-900">Expertise:</span>
+                            <span class="text-gray-700 text-base">Computer Architecture, Low Power Design, Load Balancing, Smart Agriculture, Embedded Systems</span>
+                        </div>
+                        <a href="https://www.gitam.edu/faculty/mohan-k-g" target="_blank" rel="noopener" class="text-blue-700 font-semibold underline hover:text-blue-900 mt-2 inline-block">
+                            Visit Profile &rarr;
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Speaker 2: Ms Papitha Cader -->
+                <div class="speaker-card flex flex-col md:flex-row bg-blue-50 rounded-xl shadow-2xl p-0 overflow-hidden mb-8">
+                    <!-- Left: Photo -->
+                    <div class="flex-shrink-0 flex items-center justify-center bg-yellow-100 p-6 md:p-8">
+                        <img src="image/PAPITHA.jpeg" 
+                            alt="Ms Papitha Cader" 
+                            class="rounded-xl w-48 h-56 object-cover border-4 border-blue-300"
+                            onerror="this.onerror=null; this.src='https://placehold.co/400x400/1A237E/FFC107?text=Ms+Papitha+Cader';">
+                    </div>
+                    <!-- Right: Details -->
+                    <div class="flex-1 p-6 md:p-8 text-left">
+                        <h3 class="text-3xl font-bold text-blue-900 mb-1">Ms Papitha Cader</h3>
+                        <p class="text-lg font-semibold text-yellow-700 mb-1">Scheduling Analyst, The University of Sydney, Australia</p>
+                        <p class="text-gray-700 mb-3">
+                            <strong>Ms Papitha Cader</strong> is a professional with over two decades of experience across technology, healthcare, and higher education operations. She was among the first women graduates in Computer Science Engineering in the late 1990s and has built a career that spans the Middle East, Southeast Asia, New Zealand, and Australia.
+                        </p>
+                        <p class="text-gray-700 mb-3">
+                            Her professional background includes supply chain optimization at Hewlett-Packard, where she solved real-world operational challenges, followed by a decade in the disability health sector, working on complex pay equity and workforce sustainability issues with the Ministry of Health. At the University of Sydney, she is recognized for streamlining processes, strengthening systems, and supporting decision-making with data-driven insights.
+                        </p>
+                        <p class="text-gray-700 mb-3">
+                            Academically, she holds a Master of Engineering in Computer Science from the University of Waikato, New Zealand (External Research Scholarship recipient), and is currently pursuing a Master of Public Health (MPH) at the University of Sydney, supported by a Commonwealth Supported Place (CSP) credit. Her studies focus on communicable disease control, particularly tuberculosis (TB), which she frames as a complex social disease requiring integrated biomedical, behavioral, and systemic responses.
+                        </p>
+                        <p class="text-gray-700 mb-3">
+                            Papitha applies systems thinking and strong analytical skills to complex problems, bridging technical expertise with practical outcomes. She blends precision with empathy, ensuring decisions are both evidence-based and grounded in real-world experiences.
+                        </p>
+                        <a href="https://www.linkedin.com/in/papithac?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BKkfq5%2FzoRPmyXCvUyp3dAg%3D%3D" target="_blank" rel="noopener" class="text-blue-700 font-semibold underline hover:text-blue-900 mt-2 inline-block">
+                            Papitha Cader | LinkedIn &rarr;
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. ORGANIZING COMMITTEE SECTION (FINALIZED CONTENT) -->
+    <section id="committee" class="py-16 px-4 bg-gray-100">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl font-extrabold text-center text-blue-900 mb-3">
+                Conference Organizing Committee
+            </h2>
+            <p class="text-center text-xl text-gray-700 mb-12">
+                The success of RATE - 2025 is driven by the dedication of our committed team.
+            </p>
+
+            <!-- 5.1 LEADERSHIP (Patrons) - WITH PHOTOS -->
+            <h3 class="text-3xl font-bold text-blue-900 mb-8 text-center border-b-4 border-yellow-500 pb-2">Institutional Leadership</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12 max-w-4xl mx-auto">
+                
+                <!-- Chief Patron -->
+                <div class="committee-group-card text-center border-b-4 border-red-600 shadow-xl">
+                    <div class="flex justify-center mb-4">
+                        <img src="image/Dr. Thomas P .John.png" 
+                            alt="Dr. Thomas John" 
+                            class="w-24 h-24 object-cover rounded-full border-4 border-red-300"
+                            onerror="this.onerror=null; this.src='https://placehold.co/100x100/FEE2E2/DC2626?text=TJ';">
+                    </div>
+                    <h3 class="text-xl font-bold text-red-700 mb-2">Chief Patron</h3>
+                    <p class="text-2xl font-extrabold text-blue-900">Dr. Thomas John</p>
+                    <p class="text-sm text-gray-500 mt-2 italic">Institutional Approval & Overall Guidance</p>
+                </div>
+
+                <!-- Patron -->
+                <div class="committee-group-card text-center border-b-4 border-green-600 shadow-xl">
+                    <div class="flex justify-center mb-4">
+                        <img src="image/principal_sir.png" 
+                            alt="Dr. H P Srinivasa" 
+                            class="w-24 h-24 object-cover rounded-full border-4 border-green-300"
+                            onerror="this.onerror=null; this.src='https://placehold.co/100x100/D1FAE5/059669?text=HS';">
+                    </div>
+                    <h3 class="text-xl font-bold text-green-700 mb-2">Patron</h3>
+                    <p class="text-2xl font-extrabold text-blue-900">Dr. H P Srinivasa</p>
+                    <p class="text-sm text-gray-500 mt-2 italic">Oversight & Institutional Facilities</p>
+                </div>
+            </div>
+
+            <!-- 5.2 INTERNATIONAL ADVISORY COMMITTEE (Responsive Grid) -->
+            <h3 id="advisory" class="text-3xl font-bold text-blue-900 mb-8 text-center border-b-4 border-yellow-500 pb-2">International Advisory Committee</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                
+                <!-- Member 1: Dr. S N Chandrashekara -->
+                <div class="advisory-member-card flex items-center space-x-4">
+                    <img src="image/CHANDRASECAR.jpeg" 
+                        alt="Dr. S N Chandrashekara" 
+                        class="advisory-member-img rounded-full border-2 border-blue-200"
+                        onerror="this.onerror=null; this.src='https://placehold.co/80x80/E0F7FA/1A237E?text=SC';">
+                    <div>
+                        <p class="text-lg font-bold text-blue-900">Dr. S N Chandrashekara</p>
+                        <p class="text-sm text-gray-700 font-medium">Principal</p>
+                        <p class="text-xs text-gray-500 italic">C Byregowda Institute of Technology, Kolar,Karnataka</p>
+                    </div>
+                </div>
+
+                <!-- Member 2: Dr. Jeevanandam J -->
+                <div class="advisory-member-card flex items-center space-x-4">
+                    <img src="image/Dr. Jeevanandam J .png" 
+                        alt="Dr. Jeevanandam J" 
+                        class="advisory-member-img rounded-full border-2 border-blue-200"
+                        onerror="this.onerror=null; this.src='https://placehold.co/80x80/E0F7FA/1A237E?text=JJ';">
+                    <div>
+                        <p class="text-lg font-bold text-blue-900">Dr. Jeevanandam J</p>
+                        <p class="text-sm text-gray-700 font-medium">Executive Director - Alliance Online</p>
+                        <p class="text-xs text-gray-500 italic">Bangalore, Karnataka</p>
+                    </div>
+                </div>
+
+                <div class="advisory-member-card flex items-center space-x-4">
+                    <img src="image/Dineshkumar Munikrishnan.png" 
+                        alt="Dineshkumar" 
+                        class="advisory-member-img rounded-full border-2 border-blue-200"
+                        onerror="this.onerror=null; this.src='https://placehold.co/80x80/E0F7FA/1A237E?text=SD';">
+                    <div>
+                        <p class="text-lg font-bold text-blue-900">Mr. M Dineshkumar</p>
+                        <p class="text-sm text-gray-700 font-medium">President, 4D Consulting, Bonn Germany </p>
+                        <p class="text-xs text-gray-500 italic">Director, Digital Platforms & Portals, Boehringer Ingelheim Vetmedica GmbH, Germany</p>
+                    </div>
+                </div>
+
+
+                <!-- Member 3: Dr. Mahendran G -->
+                <div class="advisory-member-card flex items-center space-x-4">
+                    <img src="image/Mahendran.jpeg" 
+                        alt="Dr. Mahendran G" 
+                        class="advisory-member-img rounded-full border-2 border-blue-200"
+                        onerror="this.onerror=null; this.src='https://placehold.co/80x80/E0F7FA/1A237E?text=GM';">
+                    <div>
+                        <p class="text-lg font-bold text-blue-900">Dr. Mahendran G</p>
+                        <p class="text-sm text-gray-700 font-medium">Vice Principal</p>
+                        <p class="text-xs text-gray-500 italic">Syed Ammal Engineering College, Ramanathapuram, Tamilnadu</p>
+                    </div>
+                </div>
+
+                <!-- Member 4: Dr. Jebashini P -->
+                <div class="advisory-member-card flex items-center space-x-4">
+                    <img src="image/Jebashini.jpeg"
+                        alt="Dr. Jebashini P" 
+                        class="advisory-member-img rounded-full border-2 border-blue-200"
+                        onerror="this.onerror=null; this.src='https://placehold.co/80x80/E0F7FA/1A237E?text=JP';">
+                    <div>
+                        <p class="text-lg font-bold text-blue-900">Dr. Jebashini P</p>
+                        <p class="text-sm text-gray-700 font-medium">Associate Professor</p>
+                        <p class="text-xs text-gray-500 italic">Kualalumpur University of Science & Technology, Malaysia</p>
+                    </div>
+                </div>
+                
+                <!-- Member 5: Dr Christeena Thomas -->
+                <div class="advisory-member-card flex items-center space-x-4">
+                    <img src="image/Christeena joseph.jpg" 
+                        alt="Dr Christeena joseph" 
+                        class="advisory-member-img rounded-full border-2 border-blue-200"
+                        onerror="this.onerror=null; this.src='https://placehold.co/80x80/E0F7FA/1A237E?text=CT';">
+                    <div>
+                        <p class="text-lg font-bold text-blue-900">Dr. Christeena Joseph</p>
+                        <p class="text-sm text-gray-700 font-medium">Associate Professor</p>
+                        <p class="text-xs text-gray-500 italic">SRM Institute of Science & Technology, Chennai ,Tamilnadu</p>
+                    </div>
+                </div>
+
+                <!-- Member 6: Dr. Smitha K -->
+                <div class="advisory-member-card flex items-center space-x-4">
+                    <img src="image/Smita.jpeg" 
+                        alt="Dr. Smitha K" 
+                        class="advisory-member-img rounded-full border-2 border-blue-200"
+                        onerror="this.onerror=null; this.src='https://placehold.co/80x80/E0F7FA/1A237E?text=SK';">
+                    <div>
+                        <p class="text-lg font-bold text-blue-900">Dr. Smitha K</p>
+                        <p class="text-sm text-gray-700 font-medium">HOD, CSE Department</p>
+                        <p class="text-xs text-gray-500 italic">HKBK College of Engineering, Bangalore, Karnataka</p>
+                    </div>
+                </div>
+                
+                <!-- Member 7: Dr. M Sathya -->
+                <div class="advisory-member-card flex items-center space-x-4">
+                    <img src="image/sathya.jpeg"
+                        alt="Dr. M Sathya" 
+                        class="advisory-member-img rounded-full border-2 border-blue-200"
+                        onerror="this.onerror=null; this.src='https://placehold.co/80x80/E0F7FA/1A237E?text=MS';">
+                    <div>
+                        <p class="text-lg font-bold text-blue-900">Dr. M Sathya</p>
+                        <p class="text-sm text-gray-700 font-medium">Vice Principal</p>
+                        <p class="text-xs text-gray-500 italic">Nadar Saraswathi College of Engineering & Technology, Theni, tamilnadu</p>
+                    </div>
+                </div>
+
+                <!-- Member 8: Dr. Keshava Munegowda -->
+                <div class="advisory-member-card flex items-center space-x-4">
+                    <img src="image/Dr .Keshava Munegowda.jpeg" 
+                        alt="Dr. Keshava Munegowda" 
+                        class="advisory-member-img rounded-full border-2 border-blue-200"
+                        onerror="this.onerror=null; this.src='https://placehold.co/80x80/E0F7FA/1A237E?text=KM';">
+                    <div>
+                        <p class="text-lg font-bold text-blue-900">Dr. Keshava Munegowda</p>
+                        <p class="text-sm text-gray-700 font-medium">Vice President, SecDB Engineering</p>
+                        <p class="text-xs text-gray-500 italic">Goldman Sachs, Bangalore, Karnataka</p>
+                    </div>
+                </div>
+
+                
+            </div>
+
+
+            <!-- 5.3 CORE ORGANIZING TEAM -->
+            <div id="coreteam" class="core-team-card rounded-xl shadow-2xl mb-12">
+    <h3 class="text-3xl font-extrabold text-yellow-500 mb-6 text-center">Core Organizing Team</h3>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+        
+        <!-- Chair Person -->
+        <div>
+            <div class="flex justify-center mb-3">
+                <img src="image/suma.png"
+                     alt="Dr. Suma R"
+                     class="w-24 h-24 object-cover rounded-full border-4 border-yellow-400"
+                     onerror="this.onerror=null; this.src='https://placehold.co/100x100/FFFDE7/FFC107?text=SR';">
+            </div>
+            <p class="text-xl font-bold text-white">Chair Person</p>
+            <p class="text-2xl font-extrabold text-yellow-500 mt-1">Dr. Suma R</p>
+            <p class="text-sm opacity-80 mt-2">HOD - CSE Department</p>
+            <p class="text-sm opacity-60">T. John Institute of Technology</p>
+            <a href="https://webapi.tjohncollege.com/MediaUploads/D253729435.pdf" target="_blank" class="text-yellow-300 underline font-semibold mt-2 inline-block">Profile &rarr;</a>
+        </div>
+
+        <!-- Convener -->
+        <div>
+            <div class="flex justify-center mb-3">
+                <img src="image/PRABHA.jpg"
+                     alt="Dr. Prabha R"
+                     class="w-24 h-24 object-cover rounded-full border-4 border-yellow-400"
+                     onerror="this.onerror=null; this.src='https://placehold.co/100x100/FFFDE7/FFC107?text=PR';">
+            </div>
+            <p class="text-xl font-bold text-white">Convener</p>
+            <p class="text-2xl font-extrabold text-yellow-500 mt-1">Dr. Prabha R</p>
+            <p class="text-sm opacity-80 mt-2">Associate Professor, CSE Department</p>
+            <p class="text-sm opacity-60">T. John Institute of Technology</p>
+            <a href="https://webapi.tjohncollege.com/MediaUploads/D254653341.pdf" target="_blank" class="text-yellow-300 underline font-semibold mt-2 inline-block">Profile &rarr;</a>
+        </div>
+
+        <!-- Co-Convener -->
+        <div>
+            <div class="flex justify-center mb-3">
+                <img src="image/shanthala.jpeg"
+                     alt="Dr. Shanthala"
+                     class="w-24 h-24 object-cover rounded-full border-4 border-yellow-400"
+                     onerror="this.onerror=null; this.src='https://placehold.co/100x100/FFFDE7/FFC107?text=SPT';">
+            </div>
+            <p class="text-xl font-bold text-white">Co-Convener</p>
+            <p class="text-2xl font-extrabold text-yellow-500 mt-1">Dr. Shanthala. PT</p>
+            <p class="text-sm opacity-80 mt-2">Associate Professor, CSE Department</p>
+            <p class="text-sm opacity-60">T. John Institute of Technology</p>
+            <a href="https://webapi.tjohncollege.com/MediaUploads/D255935591.pdf" target="_blank" class="text-yellow-300 underline font-semibold mt-2 inline-block">Profile &rarr;</a>
+        </div>
+    </div>
+</div>
+            <!-- 5.4 Functional Committees (Existing lists are retained) -->
+            <h3 class="text-3xl font-bold text-blue-900 mb-8 text-center border-b-4 border-yellow-500 pb-2">Functional Committees</h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- Technical Committee -->
+                <div class="committee-group-card">
+                    <h4 class="text-xl font-bold text-blue-800 mb-3 border-l-4 border-yellow-500 pl-3">Technical Committee</h4>
+                    <p class="text-sm text-gray-600 mb-3">Define tracks, review papers, and finalize sessions.</p>
+                    <ul class="space-y-1">
+                        <li class="font-semibold">Dr. Sudaroli D</li>
+                        <li>Dr. Mani S</li>
+                        <li>Ms Thejaswi</li>
+                    </ul>
+                </div>
+
+                <!-- Program Committee -->
+                <div class="committee-group-card">
+                    <h4 class="text-xl font-bold text-blue-800 mb-3 border-l-4 border-yellow-500 pl-3">Program Committee</h4>
+                    <p class="text-sm text-gray-600 mb-3">Prepare the conference schedule and organize talks.</p>
+                    <ul class="space-y-1">
+                        <li class="font-semibold">Dr. Sajithra Varun</li>
+                        <li>Dr. Jerald Prasath</li>
+                        <li>Ms Sathiyapriya</li>
+                    </ul>
+                </div>
+
+                <!-- Publication Committee -->
+                <div class="committee-group-card">
+                    <h4 class="text-xl font-bold text-blue-800 mb-3 border-l-4 border-yellow-500 pl-3">Publication Committee</h4>
+                    <p class="text-sm text-gray-600 mb-3">Manage proceedings, indexing, and plagiarism checks.</p>
+                    <ul class="space-y-1">
+                        <li class="font-semibold">Dr. Sudhakar D</li>
+                        <li>Dr. E. Praynlin</li>
+                        <li>Ms Y Sreevani</li>
+                    </ul>
+                </div>
+
+                <!-- Finance committee -->
+                <div class="committee-group-card">
+                    <h4 class="text-xl font-bold text-blue-800 mb-3 border-l-4 border-yellow-500 pl-3">Finance Committee</h4>
+                    <p class="text-sm text-gray-600 mb-3">Budget preparation, grants, and monitoring transactions.</p>
+                    <ul class="space-y-1">
+                        <li class="font-semibold">Dr. Prabha R</li>
+                        <li>Dr. Shanthala PT</li>
+                        <li>Ms Nikitha Sooraj</li>
+                    </ul>
+                </div>
+                
+                <!-- Registration & Hospitality committee -->
+                <div class="committee-group-card">
+                    <h4 class="text-xl font-bold text-blue-800 mb-3 border-l-4 border-yellow-500 pl-3">Registration & Hospitality</h4>
+                    <p class="text-sm text-gray-600 mb-3">Manage registration process, hospitality, and welcome kits.</p>
+                    <ul class="space-y-1">
+                        <li class="font-semibold">Ms Manjusha N M</li>
+                        <li>Ms Sonia Das</li>
+                        <li>Ms Vibha Katte</li>
+                    </ul>
+                </div>
+                
+                <!-- Publicity & Promotion Committee -->
+                <div class="committee-group-card">
+                    <h4 class="text-xl font-bold text-blue-800 mb-3 border-l-4 border-yellow-500 pl-3">Publicity & Promotion</h4>
+                    <p class="text-sm text-gray-600 mb-3">Design, social media promotion, and public relations.</p>
+                    <ul class="space-y-1">
+                        <li class="font-semibold">Dr. Santhosh PK</li>
+                        <li>Ms Syeda Tameema</li>
+			<li>Mr Pradeep R</li>
+                    </ul>
+                </div>
+                
+                <!-- Sponsorship & Industry Relations Committee -->
+                <div class="committee-group-card">
+                    <h4 class="text-xl font-bold text-blue-800 mb-3 border-l-4 border-yellow-500 pl-3">Sponsorship & Industry Relations</h4>
+                    <p class="text-sm text-gray-600 mb-3">Approach industries for sponsorship and managing stalls.</p>
+                    <ul class="space-y-1">
+                        <li class="font-semibold">Ms Tabassum</li>
+                        <li>Ms Smitha H</li>
+			<li>Mr Lohith T</li>
+                    </ul>
+                </div>
+
+                <!-- Logistics & Infrastructure Committee -->
+                <div class="committee-group-card md:col-span-2 lg:col-span-1">
+                    <h4 class="text-xl font-bold text-blue-800 mb-3 border-l-4 border-yellow-500 pl-3">Logistics & Infrastructure</h4>
+                    <p class="text-sm text-gray-600 mb-3">Venue setup, audio visuals, and IT support for the event.</p>
+                    <ul class="space-y-1">
+                        <li class="font-semibold">Ms Suganya</li>
+                        <li>Mr Mayuresh</li>
+			<li>Mr Vincent joswa</li>
+			
+			
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+ 
+
+    <!-- FOOTER -->
+    <footer class="bg-gray-800 text-white p-6 text-center">
+        <p>&copy; 2025 International Conference on RATE. Hosted by TJIT, Bangalore. All rights reserved.</p>
+        <p class="text-sm mt-2 opacity-75">Submission managed via easychair Platform.</p>
+        <div id="contact" class="text-sm mt-2 opacity-75">
+            <p>Contact: conference <member:>+919980929663</member:>/<member>+919448889091</member>| RATE-2025@outlook.com</p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT: Countdown Timer & Carousel Logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. COUNTDOWN TIMER LOGIC
+            const deadline = new Date("NOVEMBER 28,2025 23:59:59").getTime();
+            const countdownElement = document.getElementById("countdown-timer");
+
+            const updateCountdown = setInterval(function() {
+                const now = new Date().getTime();
+                const timeRemaining = deadline - now;
+
+                const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+                const formatTime = (t) => String(t).padStart(2, '0');
+
+                if (timeRemaining > 0) {
+                    countdownElement.innerHTML = 
+                        `<span class="font-mono text-4xl sm:text-5xl">${formatTime(days)}</span> Days : ` +
+                        `<span class="font-mono text-4xl sm:text-5xl">${formatTime(hours)}</span> Hrs : ` +
+                        `<span class="font-mono text-4xl sm:text-5xl">${formatTime(minutes)}</span> Mins : ` +
+                        `<span class="font-mono text-4xl sm:text-5xl">${formatTime(seconds)}</span> Secs`;
+                } else {
+                    clearInterval(updateCountdown);
+                    countdownElement.classList.remove('rate-countdown');
+                    countdownElement.classList.add('bg-red-600', 'text-white', 'border-0');
+                    countdownElement.innerHTML = "Submissions are now closed. Thank you!";
+                }
+            }, 1000);
+
+            // 2. HERO IMAGE CAROUSEL LOGIC (Crossfade effect)
+            const images = document.querySelectorAll('.carousel-image');
+            let currentIndex = 0;
+            
+            // Ensure first image is active on load
+            if (images.length > 0) {
+                images[0].classList.add('active');
+            }
+
+            function showNextImage() {
+                // Hide current image
+                if (images[currentIndex]) {
+                    images[currentIndex].classList.remove('active');
+                }
+                
+                // Move to next index, looping back to 0 if we hit the end
+                currentIndex = (currentIndex + 1) % images.length;
+                
+                // Show new image
+                if (images[currentIndex]) {
+                    images[currentIndex].classList.add('active');
+                }
+            }
+
+            // Start the carousel transition every 5 seconds (5000 milliseconds)
+            if (images.length > 1) {
+                setInterval(showNextImage, 5000);
+            }
+        });
+    </script>
+
+    <!-- Add this script before </body> to handle mobile menu toggle -->
+<script>
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileMenuClose = document.getElementById('mobile-menu-close');
+
+    function closeMobileMenu() {
+        mobileMenu.classList.add('hidden');
+    }
+
+    mobileMenuBtn.addEventListener('click', () => {
+        mobileMenu.classList.remove('hidden');
+    });
+
+    mobileMenuClose.addEventListener('click', closeMobileMenu);
+
+    // Optional: Close menu when clicking a link
+    document.querySelectorAll('#mobile-menu a').forEach(link => {
+        link.addEventListener('click', closeMobileMenu);
+    });
+</script>
+</body>
+</html>
